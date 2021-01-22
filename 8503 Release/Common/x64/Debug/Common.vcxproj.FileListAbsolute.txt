@@ -2,3 +2,5 @@ C:\Uni\Games Engineering Code\game-engineering-codebase\x64\Debug\Common.pdb
 C:\Uni\Games Engineering Code\game-engineering-codebase\Common\x64\Debug\Common.pdb
 C:\Users\SamHo\Downloads\8503 Release\x64\Debug\Common.pdb
 C:\Users\SamHo\Downloads\8503 Release\Common\x64\Debug\Common.pdb
+C:\Users\SamHo\OneDrive\Documents\GitHub\CSC8503\8503 Release\x64\Debug\Common.pdb
+C:\Users\SamHo\OneDrive\Documents\GitHub\CSC8503\8503 Release\Common\x64\Debug\Common.pdb

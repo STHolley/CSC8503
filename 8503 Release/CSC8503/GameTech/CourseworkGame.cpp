@@ -177,10 +177,9 @@ void CourseworkGame::UpdateGame(float dt) {
 			}
 		}
 
-		//if (!winnerName.empty()) {
-		//	renderer->DrawString("Winner: " + winnerName, Vector2(50, 50));
-		//}
-
+		if (player->GetTransform().GetPosition().y < -5) {
+			player->GetTransform().SetPosition(Vector3(-20, 5, 20));
+		}
 
 		renderer->Update(dt);
 	}
@@ -387,7 +386,7 @@ vector<GameObject*> CourseworkGame::AddWallsToWorld(const Vector3& position) {
 
 	wall1->GetPhysicsObject()->SetInverseMass(0);
 	wall1->GetPhysicsObject()->SetFriction(1);
-	wall1->GetPhysicsObject()->SetElasticity(0);
+	wall1->GetPhysicsObject()->SetElasticity(0.5);
 	wall1->GetPhysicsObject()->InitCubeInertia();
 
 	world->AddGameObject(wall1);
@@ -399,14 +398,14 @@ vector<GameObject*> CourseworkGame::AddWallsToWorld(const Vector3& position) {
 	wall2->SetBoundingVolume((CollisionVolume*)volume2);
 	wall2->GetTransform()
 		.SetScale(wallSize2 * 2)
-		.SetPosition(position + Vector3(10, 6, -25));
+		.SetPosition(Vector3(10, 4, -23));
 
 	wall2->SetRenderObject(new RenderObject(&wall2->GetTransform(), cubeMesh, basicTex, basicShader));
 	wall2->SetPhysicsObject(new PhysicsObject(&wall2->GetTransform(), wall2->GetBoundingVolume()));
 
 	wall2->GetPhysicsObject()->SetInverseMass(0);
 	wall2->GetPhysicsObject()->SetFriction(1);
-	wall2->GetPhysicsObject()->SetElasticity(0);
+	wall2->GetPhysicsObject()->SetElasticity(0.5);
 	wall2->GetPhysicsObject()->InitCubeInertia();
 
 	world->AddGameObject(wall2);
@@ -425,7 +424,7 @@ vector<GameObject*> CourseworkGame::AddWallsToWorld(const Vector3& position) {
 
 	wall3->GetPhysicsObject()->SetInverseMass(0);
 	wall3->GetPhysicsObject()->SetFriction(1);
-	wall3->GetPhysicsObject()->SetElasticity(0);
+	wall3->GetPhysicsObject()->SetElasticity(0.5);
 	wall3->GetPhysicsObject()->InitCubeInertia();
 
 	world->AddGameObject(wall3);
@@ -444,11 +443,87 @@ vector<GameObject*> CourseworkGame::AddWallsToWorld(const Vector3& position) {
 
 	wall4->GetPhysicsObject()->SetInverseMass(0);
 	wall4->GetPhysicsObject()->SetFriction(1);
-	wall4->GetPhysicsObject()->SetElasticity(0);
+	wall4->GetPhysicsObject()->SetElasticity(0.5);
 	wall4->GetPhysicsObject()->InitCubeInertia();
 
 	world->AddGameObject(wall4);
 	walls.push_back(wall4);
+
+	GameObject* wall5 = new GameObject("Wall");
+	Vector3 wallSize5 = Vector3(50, 4, 4);
+	AABBVolume* volume5 = new AABBVolume(wallSize5);
+	wall5->SetBoundingVolume((CollisionVolume*)volume5);
+	wall5->GetTransform()
+		.SetScale(wallSize5 * 2)
+		.SetPosition(Vector3(0, 4, 29));
+
+	wall5->SetRenderObject(new RenderObject(&wall5->GetTransform(), cubeMesh, basicTex, basicShader));
+	wall5->SetPhysicsObject(new PhysicsObject(&wall5->GetTransform(), wall5->GetBoundingVolume()));
+
+	wall5->GetPhysicsObject()->SetInverseMass(0);
+	wall5->GetPhysicsObject()->SetFriction(1);
+	wall5->GetPhysicsObject()->SetElasticity(0.5);
+	wall5->GetPhysicsObject()->InitCubeInertia();
+
+	world->AddGameObject(wall5);
+	walls.push_back(wall5);
+
+	GameObject* wall6 = new GameObject("Wall");
+	Vector3 wallSize6 = Vector3(50, 4, 4);
+	AABBVolume* volume6 = new AABBVolume(wallSize6);
+	wall6->SetBoundingVolume((CollisionVolume*)volume6);
+	wall6->GetTransform()
+		.SetScale(wallSize6 * 2)
+		.SetPosition(Vector3(0, 4, -99));
+
+	wall6->SetRenderObject(new RenderObject(&wall6->GetTransform(), cubeMesh, basicTex, basicShader));
+	wall6->SetPhysicsObject(new PhysicsObject(&wall6->GetTransform(), wall6->GetBoundingVolume()));
+
+	wall6->GetPhysicsObject()->SetInverseMass(0);
+	wall6->GetPhysicsObject()->SetFriction(1);
+	wall6->GetPhysicsObject()->SetElasticity(0.5);
+	wall6->GetPhysicsObject()->InitCubeInertia();
+
+	world->AddGameObject(wall6);
+	walls.push_back(wall6);
+
+	GameObject* wall7 = new GameObject("Wall");
+	Vector3 wallSize7 = Vector3(4, 4, 60);
+	AABBVolume* volume7 = new AABBVolume(wallSize7);
+	wall7->SetBoundingVolume((CollisionVolume*)volume7);
+	wall7->GetTransform()
+		.SetScale(wallSize7 * 2)
+		.SetPosition(Vector3(54, 4, -60 + 25));
+
+	wall7->SetRenderObject(new RenderObject(&wall7->GetTransform(), cubeMesh, basicTex, basicShader));
+	wall7->SetPhysicsObject(new PhysicsObject(&wall7->GetTransform(), wall7->GetBoundingVolume()));
+
+	wall7->GetPhysicsObject()->SetInverseMass(0);
+	wall7->GetPhysicsObject()->SetFriction(1);
+	wall7->GetPhysicsObject()->SetElasticity(0.5);
+	wall7->GetPhysicsObject()->InitCubeInertia();
+
+	world->AddGameObject(wall7);
+	walls.push_back(wall7);
+
+	GameObject* wall8 = new GameObject("Wall");
+	Vector3 wallSize8 = Vector3(4, 4, 60);
+	AABBVolume* volume8 = new AABBVolume(wallSize8);
+	wall8->SetBoundingVolume((CollisionVolume*)volume8);
+	wall8->GetTransform()
+		.SetScale(wallSize8 * 2)
+		.SetPosition(Vector3(-54, 4, -60 + 25));
+
+	wall8->SetRenderObject(new RenderObject(&wall8->GetTransform(), cubeMesh, basicTex, basicShader));
+	wall8->SetPhysicsObject(new PhysicsObject(&wall8->GetTransform(), wall8->GetBoundingVolume()));
+
+	wall8->GetPhysicsObject()->SetInverseMass(0);
+	wall8->GetPhysicsObject()->SetFriction(1);
+	wall8->GetPhysicsObject()->SetElasticity(0.5);
+	wall8->GetPhysicsObject()->InitCubeInertia();
+
+	world->AddGameObject(wall8);
+	walls.push_back(wall8);
 
 	return walls;
 }
@@ -668,7 +743,7 @@ void CourseworkGame::InitPlayer()
 }
 
 void CourseworkGame::InitEnemies() {
-	for (int i = 0; i < 1; i++) {
+	for (int i = 0; i < 4; i++) {
 		StateGameObject* enemy = AddStateEnemyToWorld(Vector3(-30, 5, 30));
 		enemy->GetPhysicsObject()->SetElasticity(0);
 		enemy->GetPhysicsObject()->SetFriction(1);

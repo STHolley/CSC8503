@@ -47,7 +47,7 @@ void StateGameObject::Update(float dt) {
 
 bool StateGameObject::TestForPath() {
 	pathNodes.clear();
-	Vector3 shift(50, 0, 95);
+	Vector3 shift(55, 0, 100);
 	Vector3 startPos = GetTransform().GetPosition() + shift;
 	Vector3 endPos = Vector3(90, 0, 0); //End area
 	NavigationPath outPath;
@@ -67,9 +67,17 @@ void StateGameObject::Pathfind(float dt) {
 		Vector3 b = pathNodes[i];
 		Debug::DrawLine(a, b, Vector4(1, 0, 0, 1));
 	}
-
+	if (GetPhysicsObject()->GetLinearVelocity().Length() <= 2) {
+		if (grounded) {
+			GetPhysicsObject()->AddForce({ 0, 1000, 0 });//Jump if possibly stuck
+		}
+	}
 	Vector3 target = pathNodes[2];
-	GetPhysicsObject()->AddForce((target - GetTransform().GetPosition()).Normalised() * 50);
+	Vector3 facingNormal = (GetTransform().GetPosition()) - GetTransform().GetOrientation() * Vector3(0, 0, 1);
+	GetPhysicsObject()->AddForceAtPosition((target - GetTransform().GetPosition()).Normalised() * 50, facingNormal);
+
+	//Oh yeah look at em goooooo skkrrrrr
+	
 }
 
 void StateGameObject::Jump(float dt) {

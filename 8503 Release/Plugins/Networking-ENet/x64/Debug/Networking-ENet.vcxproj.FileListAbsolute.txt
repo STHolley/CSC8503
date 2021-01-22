@@ -2,3 +2,5 @@ C:\Uni\Games Engineering Code\game-engineering-codebase\x64\Debug\Networking-ENe
 C:\Uni\Games Engineering Code\game-engineering-codebase\Plugins\Networking-ENet\x64\Debug\Networking-ENet.pdb
 C:\Users\SamHo\Downloads\8503 Release\x64\Debug\Networking-ENet.pdb
 C:\Users\SamHo\Downloads\8503 Release\Plugins\Networking-ENet\x64\Debug\Networking-ENet.pdb
+C:\Users\SamHo\OneDrive\Documents\GitHub\CSC8503\8503 Release\x64\Debug\Networking-ENet.pdb
+C:\Users\SamHo\OneDrive\Documents\GitHub\CSC8503\8503 Release\Plugins\Networking-ENet\x64\Debug\Networking-ENet.pdb
