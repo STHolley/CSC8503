@@ -8,7 +8,7 @@ namespace NCL {
 		class StateObstacleObject : public GameObject
 		{
 		public:
-			StateObstacleObject(std::string name);
+			StateObstacleObject(std::string name, float counter = 0.0f);
 			~StateObstacleObject();
 
 			virtual void Update(float dt);

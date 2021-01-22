@@ -190,14 +190,14 @@ void CourseworkGame::UpdateGame(float dt) {
 }
 
 void CourseworkGame::UpdateKeys() {
-	if (Window::GetKeyboard()->KeyPressed(KeyboardKeys::F1)) {
-		InitWorld(); //We can reset the simulation at any time with F1
-		selectionObject = nullptr;
-		lockedObject = nullptr;
-	}
 
 	if (Window::GetKeyboard()->KeyPressed(KeyboardKeys::F2)) {
-		InitCamera(); //F2 will reset the camera to a specific default place
+		inSelectionMode = !inSelectionMode;
+		if (inSelectionMode) {
+			InitCamera();
+		} else{
+			lockedObject = player;
+		}
 	}
 	//Always use gravity
 	physics->UseGravity(true);
@@ -250,15 +250,6 @@ void CourseworkGame::LockedObjectMovement() {
 
 	float force = 50;
 
-	//if (Window::GetKeyboard()->KeyDown(KeyboardKeys::A)) {
-	//	lockedObject->GetPhysicsObject()->AddForce(-rightAxis * force);
-	//}
-
-	//if (Window::GetKeyboard()->KeyDown(KeyboardKeys::D)) {
-	//	//Vector3 worldPos = selectionObject->GetTransform().GetPosition();
-	//	lockedObject->GetPhysicsObject()->AddForce(rightAxis * force);
-	//}
-
 	if (Window::GetKeyboard()->KeyDown(KeyboardKeys::W)) {
 		lockedObject->GetPhysicsObject()->AddForce(fwdAxis * force);
 	}
@@ -268,11 +259,13 @@ void CourseworkGame::LockedObjectMovement() {
 	}
 
 	if (Window::GetKeyboard()->KeyDown(KeyboardKeys::A)) {
-		lockedObject->GetPhysicsObject()->AddForceAtPosition(fwdAxis * 10, lockedObject->GetTransform().GetPosition() + lockedObject->GetTransform().GetOrientation() * Vector3(1, 0, 0));
+		//lockedObject->GetPhysicsObject()->AddForceAtPosition(fwdAxis * 10, lockedObject->GetTransform().GetPosition() + lockedObject->GetTransform().GetOrientation() * Vector3(1, 0, 0));
+		lockedObject->GetPhysicsObject()->AddTorque(Vector3(0, 10, 0));
 	}
 
 	if (Window::GetKeyboard()->KeyDown(KeyboardKeys::D)) {
-		lockedObject->GetPhysicsObject()->AddForceAtPosition(fwdAxis * 10, lockedObject->GetTransform().GetPosition() - lockedObject->GetTransform().GetOrientation() * Vector3(1, 0, 0));
+		//lockedObject->GetPhysicsObject()->AddForceAtPosition(fwdAxis * 10, lockedObject->GetTransform().GetPosition() - lockedObject->GetTransform().GetOrientation() * Vector3(1, 0, 0));
+		lockedObject->GetPhysicsObject()->AddTorque(Vector3(0, -10, 0));
 	}
 
 	if (Window::GetKeyboard()->KeyDown(KeyboardKeys::SPACE) && lockedObject->IsGrounded()) {
@@ -282,7 +275,7 @@ void CourseworkGame::LockedObjectMovement() {
 
 void CourseworkGame::DebugObjectMovement() {
 	//If we've selected an object, we can manipulate it with some key presses
-	/*if (inSelectionMode && selectionObject) {
+	if (inSelectionMode && selectionObject) {
 		//Twist the selected object!
 		if (Window::GetKeyboard()->KeyDown(KeyboardKeys::LEFT)) {
 			selectionObject->GetPhysicsObject()->AddTorque(Vector3(-10, 0, 0));
@@ -316,7 +309,7 @@ void CourseworkGame::DebugObjectMovement() {
 			selectionObject->GetPhysicsObject()->AddForce(Vector3(0, -10, 0));
 		}
 	}
-	*/
+	
 }
 
 void CourseworkGame::InitCamera() {
@@ -339,7 +332,9 @@ void CourseworkGame::InitWorld() {
 	InitDefaultFloor();
 	BridgeConstraintTest();
 	AddWallsToWorld(Vector3(0, -2, 0));
-	AddStateObstacleToWorld(Vector3(5, 5, 5));
+	AddStateObstacleToWorld(Vector3(0, 4, 15));
+	AddStateObstacleToWorld(Vector3(8, 4, 10));
+	AddStateObstacleToWorld(Vector3(16, 4, 10));
 }
 
 void CourseworkGame::BridgeConstraintTest() {
@@ -753,8 +748,20 @@ void CourseworkGame::InitEnemies() {
 }
 
 void CourseworkGame::InitCoins() {
-	for (int i = 0; i < 20; i++) {
-		GameObject* coin = AddBonusToWorld(Vector3(i * rand() % 10, 5, i * rand() % 10));
+	for (int i = 0; i < 6; i++) {
+		GameObject* coin = AddBonusToWorld(Vector3(-20 + (i * 10), 5, -10));
+		coin->GetPhysicsObject()->SetElasticity(0);
+		coin->GetPhysicsObject()->SetFriction(1);
+		coin->GetPhysicsObject()->SetInverseMass(0);
+	}
+	for (int i = 0; i < 6; i++) {
+		GameObject* coin = AddBonusToWorld(Vector3(-20 + (i * 10), 5, -35));
+		coin->GetPhysicsObject()->SetElasticity(0);
+		coin->GetPhysicsObject()->SetFriction(1);
+		coin->GetPhysicsObject()->SetInverseMass(0);
+	}
+	for (int i = 0; i < 6; i++) {
+		GameObject* coin = AddBonusToWorld(Vector3(-20 + (i * 10), 5, -55));
 		coin->GetPhysicsObject()->SetElasticity(0);
 		coin->GetPhysicsObject()->SetFriction(1);
 		coin->GetPhysicsObject()->SetInverseMass(0);
@@ -861,20 +868,22 @@ StateGameObject* CourseworkGame::AddStateEnemyToWorld(const Vector3& position)
 
 StateObstacleObject* CourseworkGame::AddStateObstacleToWorld(const Vector3& position)
 {
-	float inverseMass = 0;
-	StateObstacleObject* obstacle = new StateObstacleObject("Enemy");
+	float inverseMass = 1;
+	StateObstacleObject* obstacle = new StateObstacleObject("Floor", (((float)(rand() % 30)) / 10.0f));
 
-	AABBVolume* volume = new AABBVolume(Vector3(3, 3, 3));
+	AABBVolume* volume = new AABBVolume(Vector3(3, 0.5, 3));
 
 	obstacle->SetBoundingVolume((CollisionVolume*)volume);
 	obstacle->GetTransform()
 		.SetPosition(position)
-		.SetScale(Vector3(3, 3, 3) * 2);
+		.SetScale(Vector3(3, 0.5, 3) * 2);
 
 	obstacle->SetRenderObject(new RenderObject(&obstacle->GetTransform(), cubeMesh, nullptr, basicShader));
 	obstacle->SetPhysicsObject(new PhysicsObject(&obstacle->GetTransform(), obstacle->GetBoundingVolume()));
 
 	obstacle->GetPhysicsObject()->SetInverseMass(inverseMass);
+	obstacle->GetPhysicsObject()->SetFriction(1);
+	obstacle->GetPhysicsObject()->SetElasticity(0.5);
 	obstacle->GetPhysicsObject()->InitSphereInertia();
 
 	world->AddGameObject(obstacle);
@@ -906,19 +915,15 @@ letting you move the camera around.
 
 */
 bool CourseworkGame::SelectObject() {
-	/*if (Window::GetKeyboard()->KeyPressed(KeyboardKeys::Q)) {
-		inSelectionMode = !inSelectionMode;
-		if (inSelectionMode) {
-			Window::GetWindow()->ShowOSPointer(true);
-			Window::GetWindow()->LockMouseToWindow(false);
-		}
-		else {
-			Window::GetWindow()->ShowOSPointer(false);
-			Window::GetWindow()->LockMouseToWindow(true);
-		}
+	if (inSelectionMode) {
+		//Window::GetWindow()->ShowOSPointer(true);
+		//Window::GetWindow()->LockMouseToWindow(false);
+	}
+	else {
+		//Window::GetWindow()->ShowOSPointer(false);
+		//Window::GetWindow()->LockMouseToWindow(true);
 	}
 	if (inSelectionMode) {
-		renderer->DrawString("Press Q to change to camera mode!", Vector2(5, 85));
 
 		if (Window::GetMouse()->ButtonDown(NCL::MouseButtons::LEFT)) {
 			if (selectionObject) {	//set colour to deselected;
@@ -939,29 +944,6 @@ bool CourseworkGame::SelectObject() {
 				return false;
 			}
 		}
-	}
-	else {
-		renderer->DrawString("Press Q to change to select mode!", Vector2(5, 85));
-	}*/
-
-	if (lockedObject) {
-		//renderer->DrawString("Press L to unlock object!", Vector2(5, 80));
-	}
-
-	else if (selectionObject) {
-		renderer->DrawString("Press L to lock selected object object!", Vector2(5, 80));
-	}
-
-	if (Window::GetKeyboard()->KeyPressed(NCL::KeyboardKeys::L)) {
-		if (selectionObject) {
-			if (lockedObject == selectionObject) {
-				lockedObject = nullptr;
-			}
-			else {
-				lockedObject = selectionObject;
-			}
-		}
-
 	}
 
 	return false;

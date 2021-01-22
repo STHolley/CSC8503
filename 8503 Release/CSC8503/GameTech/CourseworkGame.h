@@ -83,6 +83,7 @@ namespace NCL {
 			StateObstacleObject* AddStateObstacleToWorld(const Vector3& position);
 
 			GameObject* selectionObject = nullptr;
+			bool inSelectionMode;
 
 			OGLMesh* capsuleMesh = nullptr;
 			OGLMesh* cubeMesh = nullptr;

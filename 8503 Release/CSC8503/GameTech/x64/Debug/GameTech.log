@@ -1,1 +1,8 @@
-﻿  GameTech.vcxproj -> C:\Users\SamHo\OneDrive\Documents\GitHub\CSC8503\8503 Release\x64\Debug\GameTech.exe
+﻿  CourseworkGame.cpp
+C:\Users\SamHo\OneDrive\Documents\GitHub\CSC8503\8503 Release\CSC8503\GameTech\CourseworkGame.h(137,1): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\SamHo\OneDrive\Documents\GitHub\CSC8503\8503 Release\CSC8503\GameTech\CourseworkGame.h(180,1): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\SamHo\OneDrive\Documents\GitHub\CSC8503\8503 Release\CSC8503\GameTech\CourseworkGame.cpp(341,38): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\SamHo\OneDrive\Documents\GitHub\CSC8503\8503 Release\CSC8503\GameTech\CourseworkGame.cpp(752,50): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\SamHo\OneDrive\Documents\GitHub\CSC8503\8503 Release\CSC8503\GameTech\CourseworkGame.cpp(758,50): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\SamHo\OneDrive\Documents\GitHub\CSC8503\8503 Release\CSC8503\GameTech\CourseworkGame.cpp(764,50): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  GameTech.vcxproj -> C:\Users\SamHo\OneDrive\Documents\GitHub\CSC8503\8503 Release\x64\Debug\GameTech.exe

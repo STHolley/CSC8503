@@ -5,9 +5,9 @@
 
 using namespace NCL::CSC8503;
 
-StateObstacleObject::StateObstacleObject(std::string name) : GameObject(name)
+StateObstacleObject::StateObstacleObject(std::string name, float counter) : GameObject(name)
 {
-	counter = 0.0f;
+	this->counter = counter;
 
 	stateMachine = new StateMachine();
 

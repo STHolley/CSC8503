@@ -22,15 +22,15 @@ StateGameObject::StateGameObject(std::string name) : GameObject(name)
 
 	stateMachine->AddState(stateA);
 	stateMachine->AddState(stateB);
-
-	stateMachine->AddTransition(new StateTransition(stateA, stateB, [&]()->bool { //Jump when no path
+	//AI jumps if no path available, of if it thinks it is blocked to jump over the blockade
+	stateMachine->AddTransition(new StateTransition(stateA, stateB, [&]()->bool { //pathfind when available
 		TestForPath();
-		return pathFound == true;
+		return pathFound == true || GetPhysicsObject()->GetLinearVelocity().Length() <= 2;
 		
 		}));
-	stateMachine->AddTransition(new StateTransition(stateB, stateA, [&]()->bool { //Pathfind if available
+	stateMachine->AddTransition(new StateTransition(stateB, stateA, [&]()->bool { //jump if blocked
 		TestForPath();
-		return pathFound == false;
+		return pathFound == false || GetPhysicsObject()->GetLinearVelocity().Length() > 2;
 		}));
 }
 
@@ -69,7 +69,7 @@ void StateGameObject::Pathfind(float dt) {
 	}
 	if (GetPhysicsObject()->GetLinearVelocity().Length() <= 2) {
 		if (grounded) {
-			GetPhysicsObject()->AddForce({ 0, 1000, 0 });//Jump if possibly stuck
+			//GetPhysicsObject()->AddForce({ 0, 1000, 0 });//Jump if possibly stuck
 		}
 	}
 	Vector3 target = pathNodes[2];
