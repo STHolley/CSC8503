@@ -14,6 +14,7 @@ In Game:
   SPACE: Jump
   ESCAPE: Pause
   F1: Return to main menu
+  F2: Toggle freecam
   
 Pause Menu:
   ESCAPE: Unpause
