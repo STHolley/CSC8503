@@ -61,12 +61,6 @@ bool StateGameObject::TestForPath() {
 }
 
 void StateGameObject::Pathfind(float dt) {
-
-	for (int i = 1; i < pathNodes.size(); i++) {
-		Vector3 a = pathNodes[i - 1];
-		Vector3 b = pathNodes[i];
-		Debug::DrawLine(a, b, Vector4(1, 0, 0, 1));
-	}
 	if (GetPhysicsObject()->GetLinearVelocity().Length() <= 2) {
 		if (grounded) {
 			//GetPhysicsObject()->AddForce({ 0, 1000, 0 });//Jump if possibly stuck
